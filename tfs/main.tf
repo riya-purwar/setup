@@ -22,7 +22,7 @@ resource "aws_instance" "cassandra_nodes" {
   vpc_security_group_ids      = each.value.security_group_ids
   subnet_id                   = each.value.subnet_id
 
-  user_data = templatefile("../cassandra-setup.sh", {
+  user_data = templatefile("../cassandra-config.sh", {
     seeds       = local.seeds
     name        = each.value.name
     instance_ip = each.value.private_ip
