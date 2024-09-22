@@ -15,7 +15,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "cassandra_nodes" {
-  for_each                    = local.cassandra_nodes
+  for_each                    = locals.cassandra_nodes
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = each.value.instance_type
   private_ip                  = each.value.private_ip
@@ -23,7 +23,7 @@ resource "aws_instance" "cassandra_nodes" {
   subnet_id                   = each.value.subnet_id
 
   user_data = templatefile("../cassandra-config.sh", {
-    seeds       = local.seeds
+    seeds       = locals.seeds
     name        = each.value.name
     instance_ip = each.value.private_ip
     dc          = each.value.dc
